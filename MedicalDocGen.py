@@ -1,21 +1,21 @@
 # you do NOT have to memorise "how to perfectly write code from your brain" just understand the concepts
-# most of the time, you will need to google the structure and then adapt it to your code 
+# most of the time, you will need to google the structure and then adapt it to your code
 # it's like if google is your Maths formula cheat sheet instead of memorising all of the maths formulas
 
-# EXTRA INFO: 
+# EXTRA INFO:
 
   # A "VARIABLE" is a "Temporary storage of a value"
   # if you see anything like [ keyWord = "value" ] then this is when we are temporarily setting a value
   # you will want to do this when you need to make your code "dynamic" and change depending on the situation
   # you will also want to do this if you need to keep referring the the "variable" for a calculation for example
-  # variables can store either A SINGLE VALUE or MANY VALUES.  
+  # variables can store either A SINGLE VALUE or MANY VALUES.
     # Single value example: x = 1
     # Multiple value example x = [1,2,3,4,5] <- this is called an array
   # in this code, you'll see that I use "Dictionaries" a lot. See below for more info
 
   # A "DICTIONARY" and is structured like:
   # [ dictionary = {"SUBJECT": "VALUE", "SUBJECT2": "VALUE2"} ]
-  # INFO: THE COMMA IS USED IF YOU WANT MULTIPLE SUBJECTS & VALUES 
+  # INFO: THE COMMA IS USED IF YOU WANT MULTIPLE SUBJECTS & VALUES
   # TO REFER TO A SPECIFIC SUBJECT IN YOUR DICTIONARY, THEN YOU FORMAT IT LIKE:
   # "dictionary['Subject']" AND THEN YOU WILL RECEIVE THE CORRELATED "VALUE"
 
@@ -31,12 +31,13 @@
     # doSomething([INSERT PARAMETER VALUE HERE])
 
 
-# INFO: by default, python only has a "skeleton" amount of functions that it can run 
+# INFO: by default, python only has a "skeleton" amount of functions that it can run
 # INFO: you need to "import libraries" so that your python code can do more things
 # INFO: BELOW we import a few libraries so that our python code can:
   # Create a word doc: docx
   # do calculations on date/time: datetime, pytz,calendar
-
+# !pip install python-docx
+# !pip install requests
 import docx
 # LIBRARY TO GET DATE/TIME
 from datetime import datetime, timedelta, timezone, date
@@ -53,17 +54,17 @@ sydney_date = datetime.now(pytz.timezone('Australia/Sydney'))
 
 
 
-# PRE-DEFINING A LIST OF QUESTIONS - ASKING THE USER QUESTIONS TO GET INFORMATION 
+# PRE-DEFINING A LIST OF QUESTIONS - ASKING THE USER QUESTIONS TO GET INFORMATION
 def getQuestions():
 
   # BELOW IS CALLED A "DICTIONARY" - SEE INFORMATION ABOUT "DICTIONARY" AT THE TOP OF THE CODE
-  questions = { 
+  questions = {
       "Enter the heart rate": 0
       , "Enter the client's Name (First & Last Name)": ""
       , "Enter the client's appointment time (24 HOUR TIME HHMM)": ""
       , "Enter the client's appointment date (YYYY-MM-DD)": ""
   }
-  
+
 
 
   # LOOP THROUGH THE DICTIONARY LIST AND ADD EACH ANSWER INTO AN ARRAY
@@ -73,14 +74,14 @@ def getQuestions():
     questions[i] = temp_var # SETTING THE "VALUE" OF THE DICTIONARY SUBJECT TO EQUAL WHAT THE USER ENTERED
     # E.G. if the question is "What is the heart rate?" the above line will set the value to be the user input
 
-  # DEPENDING ON THE HEART RATE, THEN PROVIDE THE USER WITH A DIFFERENT TEMPLATE - 90 IS HARD CODED 
+  # DEPENDING ON THE HEART RATE, THEN PROVIDE THE USER WITH A DIFFERENT TEMPLATE - 90 IS HARD CODED
   if int(questions['Enter the heart rate']) >= 90: #CHECKING IF THE USER INPUTTED 90 OR GREATER
-      template_version = "A" # SET THE TEMPLATE TO BE "A" 
+      template_version = "A" # SET THE TEMPLATE TO BE "A"
   elif int(questions['Enter the heart rate']) < 90: #ELSE IF THE HEART RATE IS LOWER THAN 90, THEN DO SOMETHING ELSE
-      template_version = "B" # SET THE TEMPLATE TO BE "B" 
+      template_version = "B" # SET THE TEMPLATE TO BE "B"
 
   # SEE EXTRA INFO AT THE TOP ABOUT "FUNCTIONS"
-      
+
   # CALL FUNCTIONS TO FORMAT DATE VALUES
   # IN THE BELOW PARAMETER, WE PASS THROUGH THE DATE ENTERED BY THE USER
   # WE ALSO PASS IN THE TYPE OF DATA WE WANT TO TAKE BACK.
@@ -88,26 +89,26 @@ def getQuestions():
   # at the end of the "def formatDate" you will need to come back here to continue the code sequence
   week_day_num = formatDate(questions["Enter the client's appointment date (YYYY-MM-DD)"], "week_day_num")
   week_day = formatDate(questions["Enter the client's appointment date (YYYY-MM-DD)"], "week_day")
-    
+
   # CALL FUNCTION TO BEGIN CREATING THE DOCUMENT
   # we also "PASS IN" 4 varaibles, questions, template_version, week_day, week_day_num
   createDocument(questions, template_version, week_day, week_day_num)
 
 # BEGINING OF FUNCTION TO FORMAT THE DATE VALUES
-def formatDate(date_string, requested_value): 
+def formatDate(date_string, requested_value):
   # INITIALISING VARIABLE
   # Initialising also means "defining" or "creating" the variable so that your code knows it should exist
   return_value = ""
-  
+
   # DATE CONVERSION INTO PROPER FORMAT
   date_formatted = datetime.strptime(date_string, '%Y-%m-%d') #strptime is a python defined function. we only understand how to use it by reading documentation online
-  
+
   # USING THE FORMATTED DATE TO GET WEEK DAY NUMBER
   week_day_num = date_formatted.weekday()
 
   # USING THE WEEKDAY NUMBER TO GET THE WEEK DAY NAME
   week_day = calendar.day_name[date_formatted.weekday()]
-  
+
   # DEPENDING ON WHAT VARIABLE/PARAMETER IS PASSED IN, THEN RETURN A DIFFERENT VALUE (NUMBER OR NAME)
   if requested_value == "week_day":
     return_value = week_day
@@ -115,13 +116,13 @@ def formatDate(date_string, requested_value):
   elif requested_value == "week_day_num":
     return_value = week_day_num
     print(f"Formatted Date: {date_formatted},  Week day num: {week_day_num}")
-  
-  # WE RETURN "return_value" BACK TO THE week_day_num & week_day ON LINE 79 & 80
+
+  # WE RETURN "return_value" BACK TO THE week_day_num & week_day ON LINE 89 & 90
   return return_value
 
 
 
-        
+
 # CREATE THE DOCUMENT NOTICE THAT THERE ARE 4 PARAMETERS
 def createDocument(questions, template_version, week_day, week_day_num):
   # Calling the "calculateDates" function by passing in week_day_num
@@ -130,7 +131,7 @@ def createDocument(questions, template_version, week_day, week_day_num):
   # Calling the "calculateTime" function by passing in the user inputted time
   # look for "def calculateTime"
   calculated_time = calculateTime(questions["Enter the client's appointment time (24 HOUR TIME HHMM)"])
-  
+
   #I STOLE MOST OF THE BELOW CODE FROM THE INTERNET, JUST TRUST THAT THEY DO WHAT YOU NEED
   # Create a document
   doc = docx.Document()
@@ -204,7 +205,7 @@ Take one tablet (Metoprolol 50mg) {week_day} Morning at {calculated_time['2_hour
     run.font.name = 'Arial'
     run.font.size = docx.shared.Pt(12)
   # THE IF ELSE STATEMENT ENDS HERE
-    
+
   #CONTINUE ADDING INFORMATION TO THE BOTTOM OF THE DOCUMENT
   doc.add_paragraph()
   p = doc.add_paragraph()
@@ -265,16 +266,16 @@ def calculateDates(week_day_num):
   # IF THE VALUE FALLS UNDER 0, THEN YOU NEED TO ADD 7 TO BRING IT BACK INTO THE DATE RANGE
   if returnDayNums["2_days_before"] < 0:
       returnDayNums["2_days_before"] = calendar.day_name[returnDayNums["2_days_before"]+7]
-  else: 
+  else:
       returnDayNums["2_days_before"] =calendar.day_name[returnDayNums["2_days_before"]]
 
   if returnDayNums["1_days_before"] < 0:
       returnDayNums["1_days_before"] = calendar.day_name[returnDayNums["1_days_before"]+7]
   else:
       returnDayNums["1_days_before"] = calendar.day_name[returnDayNums["1_days_before"]]
-  
+
   print(returnDayNums)
-  return returnDayNums # RETURNING THE VALUE BACK TO LINE 121
+  return returnDayNums # RETURNING THE VALUE BACK TO LINE 130
 
 # CALCULATING THE APPOINTMENT TIME AND ARRIVAL TIME
 def calculateTime(time):
@@ -284,7 +285,7 @@ def calculateTime(time):
     ,"arrival_time": ""
     , "2_hours_before_appointment_time": ""
   }
-  
+
   # CHANGING THE USER'S INPUT OF "HHMM" TO A PROPER "TIME OBJECT" THAT PYTHON CAN DO CALCULATIONS ON
   converted_appointment_time = datetime.strptime(time, "%H%M")
 
@@ -300,7 +301,7 @@ def calculateTime(time):
   formatted_time["2_hours_before_appointment_time"] = converted_2_hours_before_appointment_time.strftime("%I:%M %p")
   print(formatted_time)
 
-  # RETURNING THE DICTIONARY BACK TO LINE 124 SO WE CAN USE IT IN THE WORD DOCUMENT
+  # RETURNING THE DICTIONARY BACK TO LINE 133 SO WE CAN USE IT IN THE WORD DOCUMENT
   return formatted_time
 
 # TYPICAL PYTHON CODE THAT WILL TELL IT WHERE THE BEGIN THE CODE SEQUENCING.
